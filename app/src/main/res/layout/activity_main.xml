@@ -9,8 +9,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.handsignature.secuve.secuvehandsignature.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/mainImage"
+            android:src="@drawable/sd"/>
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="REGISTER" />
+
+
+        <Button
+            android:id="@+id/signButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SIGN"/>
+
+        <TextView
+            android:id="@+id/madeBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="Made by BDW!" />
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/optionButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/option_image"/>
+
+
+
 </RelativeLayout>
