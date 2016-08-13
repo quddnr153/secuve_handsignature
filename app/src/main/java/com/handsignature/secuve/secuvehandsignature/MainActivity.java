@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
+
         Button signLaunch = (Button)findViewById(R.id.signButton);
         signLaunch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
