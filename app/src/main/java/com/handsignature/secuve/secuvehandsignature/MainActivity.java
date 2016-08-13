@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,11 +17,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button launch = (Button)findViewById(R.id.registerButton);
-        launch.setOnClickListener(new Button.OnClickListener(){
+
+        Button registerLaunch = (Button)findViewById(R.id.registerButton);
+        registerLaunch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
+                startActivity(intent); // 두번째 액티비티를 실행합니다.
+            }
+        });
+
+        ImageButton setupLaunch = (ImageButton)findViewById(R.id.optionButton);
+        setupLaunch.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(MainActivity.this, SetupActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
+                startActivity(intent); // 두번째 액티비티를 실행합니다.
+            }
+        });
+
+        
+        Button signLaunch = (Button)findViewById(R.id.signButton);
+        signLaunch.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(MainActivity.this, SetupActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
                 startActivity(intent); // 두번째 액티비티를 실행합니다.
             }
         });
