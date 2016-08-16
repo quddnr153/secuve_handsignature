@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <view
+        class="com.handsignature.secuve.secuvehandsignature.DrawActivity$Paper"
+        android:layout_width="480dp"
+        android:layout_height="400dp"
+        android:id="@+id/paper"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="32dp"
+        android:text="OK"
+        android:id="@+id/button_ok"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="Retry"
+        android:id="@+id/button_retry"
+        android:layout_gravity="right"
+        android:layout_below="@+id/button_ok"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:text="Cancel"
+        android:id="@+id/button_cancel"
+        android:layout_gravity="right"
+        android:layout_below="@+id/button_retry"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

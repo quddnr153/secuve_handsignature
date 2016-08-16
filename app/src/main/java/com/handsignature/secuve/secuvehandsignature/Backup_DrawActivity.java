@@ -17,6 +17,10 @@ import java.util.ArrayList;
  */
 
 public class Backup_DrawActivity extends AppCompatActivity{
+
+    /*
+
+
     class Point {
         float x;
         float y;
@@ -68,4 +72,6 @@ public class Backup_DrawActivity extends AppCompatActivity{
         Paper paper = new Paper(this);
         setContentView(paper);
     }
+
+    */
 }
