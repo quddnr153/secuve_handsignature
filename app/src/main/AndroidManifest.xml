@@ -18,7 +18,12 @@
 
         <activity android:name = ".RegisterActivity"/>
         <activity android:name=".SetupActivity"/>
+        <activity android:name = ".DrawActivity"/>
 
     </application>
+
+    <!-- 저장 용도 작동하는지는 모르겠다 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
 </manifest>

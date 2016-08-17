@@ -31,6 +31,7 @@ public class ListData {
         @Override
         public int compare(ListData mListDate_1, ListData mListDate_2) {
             return sCollator.compare(mListDate_1.userName, mListDate_2.userName);
+
         }
     };
 }

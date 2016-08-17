@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         registerLaunch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                // 서명 등록을 위한 단계
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
                 startActivity(intent); // 두번째 액티비티를 실행합니다.
             }
