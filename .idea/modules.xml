@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SecuveHandSignature.iml" filepath="$PROJECT_DIR$/SecuveHandSignature.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/secuve_handsignature.iml" filepath="$PROJECT_DIR$/secuve_handsignature.iml" />
     </modules>
   </component>
 </project>
