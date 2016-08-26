@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Created by Woori on 2016-08-16.
  * 서명 View
@@ -24,7 +26,8 @@ public class SignView extends View {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
-
+    //public ArrayList<Path> paths = new ArrayList<>();
+    //public ArrayList<Path> undonePaths = new ArrayList<>();
 
     public SignView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,10 +46,17 @@ public class SignView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(mBitmap, 0, 0, paint);
+/*
+        for (Path p: paths) {
+            canvas.drawPath(p, mPaint);
+        }
+*/
         canvas.drawPath(path, mPaint);
     }
 
     private void touch_start(float x, float y){
+        //undonePaths.clear();
+
         path.reset();
         path.moveTo(x, y);
         mX = x;
@@ -66,6 +76,7 @@ public class SignView extends View {
     private void touch_up() {
         path.lineTo(mX, mY);
         mCanvas.drawPath(path, mPaint);
+       // paths.add(path);
         path.reset();
     }
 
@@ -90,4 +101,22 @@ public class SignView extends View {
         }
         return true;
     }
+/*
+    public void undo() {
+        if (paths.size() > 0) {
+            undonePaths.add(paths.remove(paths.size()-1));
+            invalidate();
+        } else {
+            // toast the user
+        }
+    }
+
+    public void redo() {
+        if (undonePaths.size() > 0) {
+            paths.add(undonePaths.remove(undonePaths.size()-1));
+            invalidate();
+        } else {
+            // toast the user
+        }
+    } */
 }

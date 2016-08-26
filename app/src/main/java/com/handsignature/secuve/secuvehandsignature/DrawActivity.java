@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -42,6 +46,8 @@ public class DrawActivity extends Activity {
             public void onClick(View view) {
                 Toast.makeText(DrawActivity.this, "bitmap 저장하는 기능 아직 없음", Toast.LENGTH_LONG).show();
                 // 아마 redo undo에서 쓰는 cache 기능을 쓰면 path도 파악이 가능할 것 같다.
+                // sv.undonePaths.add(sv.paths.remove(sv.paths.size()-1)); // 멈춘다
+                sv.invalidate();
             }
         });
 
@@ -49,7 +55,10 @@ public class DrawActivity extends Activity {
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DrawActivity.this, "retry하는 기능 아직 없음", Toast.LENGTH_LONG).show();
+                Toast.makeText(DrawActivity.this, "다시 서명하세요.", Toast.LENGTH_LONG).show();
+                sv.mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+                // Color.TRANSPARENT or 0
+                sv.invalidate();
             }
         });
 
