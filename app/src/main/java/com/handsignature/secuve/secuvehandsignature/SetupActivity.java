@@ -22,6 +22,7 @@ import java.util.Collections;
 
 /**
  * Created by quddn on 2016-08-12.
+ *
  */
 public class SetupActivity extends AppCompatActivity {
 
