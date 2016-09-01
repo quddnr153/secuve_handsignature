@@ -2,13 +2,17 @@ package com.handsignature.secuve.secuvehandsignature;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,9 +49,26 @@ public class DrawActivity extends Activity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DrawActivity.this, "bitmap 저장하는 기능 아직 없음", Toast.LENGTH_LONG).show();
-                // 아마 redo undo에서 쓰는 cache 기능을 쓰면 path도 파악이 가능할 것 같다.
-                // sv.undonePaths.add(sv.paths.remove(sv.paths.size()-1)); // 멈춘다
+                // Toast.makeText(DrawActivity.this, "bitmap 저장하는 기능 아직 없음", Toast.LENGTH_LONG).show();
+
+                // 매 runtime마다 permission을 확인해야 한다.
+                try {
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (ContextCompat.checkSelfPermission(DrawActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                ContextCompat.checkSelfPermission(DrawActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(DrawActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                        } else {
+                            Toast.makeText(DrawActivity.this, "1", Toast.LENGTH_SHORT).show();
+                            SaveSignature(sv, name+"_signature"+System.currentTimeMillis()+".jpg");
+                        }
+                    } else {
+                        Toast.makeText(DrawActivity.this, "2", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (IOException e) {
+                    Log.d("???", e.toString());
+                }
+
                 sv.invalidate();
             }
         });
@@ -71,5 +93,66 @@ public class DrawActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+
+    // view를 jpg로 저장하는 애
+
+    public void SaveSignature(View view, String filename) throws IOException {
+
+        if (!view.isEnabled()) Toast.makeText(this, "view 없저", Toast.LENGTH_SHORT).show();
+        if (!checkExternalStorage()) Toast.makeText(this, "sd 없저", Toast.LENGTH_SHORT).show();
+
+        String dir;
+
+        String sdcard = Environment.getExternalStorageState();
+        if (sdcard.equals(Environment.MEDIA_MOUNTED)) dir = Environment.getExternalStorageDirectory().getAbsolutePath();
+        else dir = Environment.getRootDirectory().getAbsolutePath();
+
+        File directory = new File(dir, "woori");
+        //  if(!directory.exists()) directory.mkdirs();
+        if(!directory.exists()) {
+            boolean checker = directory.mkdirs();
+            if(checker) Log.d(">>>>>>>>>", "dir만들어짐"+checker);
+            else Log.d(">>>>>>>>>", "dir안만들어짐"+checker);
+        } else {
+            Log.d(">>>>>>>>>", "dir가 원래 있어: "+directory.toString());
+        }
+
+        if(directory.isDirectory()) {
+            File file = new File(directory.getAbsolutePath(), filename);
+            file.createNewFile();
+            // Log.d(">>>>>>>>>", "그래서 최종 dir이 뭐냐면: "+directory.getAbsolutePath().toString()+"/////"+file.getAbsolutePath().toString());
+
+            view.buildDrawingCache();
+            Bitmap bitmap = view.getDrawingCache();
+
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+                Toast.makeText(this, "저장 성공", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.d("!!!!!", e.toString());
+                Toast.makeText(this, "저장에 뭔가 문제가 있다", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // sd card 상태랑 permission 확인하는 애
+    private String state;
+    boolean checkExternalStorage() {
+        state = Environment.getExternalStorageState();
+        if(Environment.MEDIA_MOUNTED.equals(state)) {
+            Log.d("test", "읽기쓰기모두가능");
+            return true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            Log.d("test", "읽기가능");
+            return true;
+        } else {
+            Log.d("test", "불가능/"+state);
+            return false;
+        }
     }
 }
