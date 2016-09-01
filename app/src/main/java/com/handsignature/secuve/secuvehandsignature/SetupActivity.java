@@ -1,6 +1,7 @@
 package com.handsignature.secuve.secuvehandsignature;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,10 +30,14 @@ public class SetupActivity extends AppCompatActivity {
     private ListView m_ListView;
     private CustomAdapter m_Adapter;
 
+    DBHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
+
+        dbHelper = new DBHelper(getApplicationContext(), "USER.db", null, 1);
 
         // 커스텀 어댑터 생성
         m_Adapter = new CustomAdapter();
@@ -43,10 +48,19 @@ public class SetupActivity extends AppCompatActivity {
         // ListView에 어댑터 연결
         m_ListView.setAdapter(m_Adapter);
 
+        String name = dbHelper.selectNames();
+        String [] names = name.split(",");
+
+        for(int i = 0; i < names.length; ++i) {
+            m_Adapter.add(names[i]);
+        }
+
         // ListView에 아이템 추가
+        /*
         m_Adapter.add("Byungwook Lee");
         m_Adapter.add("Woori Roh");
         m_Adapter.add("Daehan Wyee");
+        */
     }
 
     public class CustomAdapter extends BaseAdapter {
@@ -127,6 +141,11 @@ public class SetupActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // 터치 시 해당 아이템 이름 출력
                     Toast.makeText(context, m_List.get(pos), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SetupActivity.this, DrawActivity.class); // DrawActivity로 이동한다.
+                    intent.putExtra("name", m_List.get(pos)); // name이라는 이름으로 String name을 전달한다.
+                    intent.putExtra("plags", "update");
+                    startActivity(intent);
+                    finish(); // 지금 이 activity 종료
                 }
             });
 
@@ -136,6 +155,7 @@ public class SetupActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // 터치 시 해당 아이템 이름 출력
                     Toast.makeText(context, m_List.get(pos), Toast.LENGTH_SHORT).show();
+                    dbHelper.delete(m_List.get(pos));
                 }
             });
 

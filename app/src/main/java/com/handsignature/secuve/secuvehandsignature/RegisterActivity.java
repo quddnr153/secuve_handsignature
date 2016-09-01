@@ -30,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity{
                 name = nameentry.getText().toString();
                 Intent intent = new Intent(RegisterActivity.this, DrawActivity.class); // DrawActivity로 이동한다.
                 intent.putExtra("name", name); // name이라는 이름으로 String name을 전달한다.
+                intent.putExtra("plags", "insert");
                 startActivity(intent);
                 finish(); // 지금 이 activity 종료
             }

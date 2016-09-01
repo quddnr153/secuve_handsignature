@@ -43,7 +43,28 @@ public class DBHelper extends SQLiteOpenHelper {
     public void update(String name, String sign1, String sign2, String sign3) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 sign information update
-        db.execSQL("UPDATE USER SET sign1='" + sign1 + "', sign2='" + sign2 + "', sing3='" + sign3 + "' WHERE name='" + name + "';");
+        db.execSQL("UPDATE USER SET sign1='" + sign1 + "', sign2='" + sign2 + "', sign3='" + sign3 + "' WHERE name='" + name + "';");
+        db.close();
+    }
+
+    public void update1(String name, String sign1) {
+        SQLiteDatabase db = getWritableDatabase();
+        // 입력한 항목과 일치하는 행의 sign information update
+        db.execSQL("UPDATE USER SET sign1='" + sign1 + "' WHERE name='" + name + "';");
+        db.close();
+    }
+
+    public void update2(String name, String sign2) {
+        SQLiteDatabase db = getWritableDatabase();
+        // 입력한 항목과 일치하는 행의 sign information update
+        db.execSQL("UPDATE USER SET sign2='" + sign2 + "' WHERE name='" + name + "';");
+        db.close();
+    }
+
+    public void update3(String name, String sign3) {
+        SQLiteDatabase db = getWritableDatabase();
+        // 입력한 항목과 일치하는 행의 sign information update
+        db.execSQL("UPDATE USER SET sign3='" + sign3 + "' WHERE name='" + name + "';");
         db.close();
     }
 
@@ -52,6 +73,17 @@ public class DBHelper extends SQLiteOpenHelper {
         // 입력한 항목과 일치하는 행 삭제
         db.execSQL("DELETE FROM USER WHERE name='" + name + "';");
         db.close();
+    }
+
+    public String selectNames() {
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        String result = "";
+        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
+        while (cursor.moveToNext()) {
+            result += cursor.getString(1) + ",";
+        }
+        return result;
     }
 
     public String getResult() {
