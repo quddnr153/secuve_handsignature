@@ -80,10 +80,12 @@ public class DrawActivity extends Activity {
 
                 sv.invalidate();
                 if (cnt == 3) {
-                    if (plags.compareTo("insert") == 0)
+                    if (plags.compareTo("insert") == 0) { // In case of user insert
                         dbHelper.insert(name, signs[0], signs[1], signs[2]);// user 이름이 name인 사용자 추가
-                    else
+                    }
+                    else { // In case of user update, maybe we need to implement the deleting files which are replaced.
                         dbHelper.update(name, signs[0], signs[1], signs[2]);// user 이름이 name인 사용자 추가
+                    }
                     Intent intent = new Intent(DrawActivity.this, MainActivity.class); // MainActivity 이동한다.
                     startActivity(intent);
                     finish(); // 지금 이 activity 종료
@@ -146,6 +148,12 @@ public class DrawActivity extends Activity {
 
             view.buildDrawingCache();
             Bitmap bitmap = view.getDrawingCache();
+
+            // 세선화 작업
+            ZhangSuen zs = new ZhangSuen(bitmap);
+            zs.thinImage();
+            bitmap = zs.getBitmap();
+
 
             Uri imageUri = Uri.fromFile(file);
 
