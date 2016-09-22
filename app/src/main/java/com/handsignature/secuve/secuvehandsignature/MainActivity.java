@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         signLaunch.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(MainActivity.this, SetupActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
+                Intent intent = new Intent(MainActivity.this, SignActivity.class); // 두번째 액티비티를 실행하기 위한 인텐트
                 startActivity(intent); // 두번째 액티비티를 실행합니다.
             }
         });

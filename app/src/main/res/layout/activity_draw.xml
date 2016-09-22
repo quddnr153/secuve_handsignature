@@ -5,12 +5,12 @@
 
     <LinearLayout
         android:id="@+id/layout1"
-        android:layout_width="540dp"
+        android:layout_width="497dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
             <com.handsignature.secuve.secuvehandsignature.SignView
                 android:id="@+id/signView"
-                android:layout_width="fill_parent"
+                android:layout_width="492dp"
                 android:layout_height="wrap_content"
                 android:saveEnabled="true" />
     </LinearLayout>

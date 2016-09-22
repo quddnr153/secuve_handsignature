@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -70,6 +71,8 @@ public class SignView extends View {
             path.quadTo(mX, mY, (x+mX) / 2, (y+mY) / 2);
             mX = x;
             mY = y;
+
+            Log.d(">>>", "("+(int)x+","+(int)y+")");
         }
     }
 
