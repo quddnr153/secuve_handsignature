@@ -50,7 +50,8 @@ public class SignActivity extends Activity{
                         } else {
                             Toast.makeText(SignActivity.this, "1", Toast.LENGTH_SHORT).show();
                             String filename = name + "_signature" + System.currentTimeMillis() + ".jpg";
-                            SaveSignature(sv, filename);
+                            String filename1 = name + "_signature2" + System.currentTimeMillis() + ".jpg";
+                            SaveSignature(sv, filename, filename1);
 
                             Intent intent = new Intent(SignActivity.this, MainActivity.class); // MainActivity 이동한다.
                             startActivity(intent);
@@ -69,7 +70,7 @@ public class SignActivity extends Activity{
         });
     }
 
-    public void SaveSignature(View view, String filename) throws IOException {
+    public void SaveSignature(View view, String filename, String filename1) throws IOException {
 
         if (!view.isEnabled()) Toast.makeText(this, "view 없저", Toast.LENGTH_SHORT).show();
         //if (!checkExternalStorage()) Toast.makeText(this, "sd 없저", Toast.LENGTH_SHORT).show();
@@ -98,6 +99,20 @@ public class SignActivity extends Activity{
 
             view.buildDrawingCache();
             Bitmap bitmap = view.getDrawingCache();
+
+            // 세선화 전 저장
+            File file1 = new File(directory.getAbsolutePath(), filename1);
+            file1.createNewFile();
+            try {
+                FileOutputStream fos = new FileOutputStream(file1);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+                Toast.makeText(this, "세선화 전 저장 성공", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.d("!!!!!", e.toString());
+                Toast.makeText(this, "세선화 전 저장에 뭔가 문제가 있다", Toast.LENGTH_SHORT).show();
+            }
 
             // 세선화 작업
             ZhangSuen zs = new ZhangSuen(bitmap);
