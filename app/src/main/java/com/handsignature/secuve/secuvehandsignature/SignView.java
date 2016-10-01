@@ -10,8 +10,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Woori on 2016-08-16.
@@ -26,6 +29,9 @@ public class SignView extends View {
     private Paint paint;
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
+
+    private int start = 0;
+    private int end = 0;
 
     //public ArrayList<Path> paths = new ArrayList<>();
     //public ArrayList<Path> undonePaths = new ArrayList<>();
@@ -57,6 +63,7 @@ public class SignView extends View {
 
     private void touch_start(float x, float y){
         //undonePaths.clear();
+        //Log.d(">>>>>>>>>>", "Cheers love~ the cavalry's here!");
 
         path.reset();
         path.moveTo(x, y);
@@ -91,6 +98,7 @@ public class SignView extends View {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 touch_start(x, y);
+                countStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -103,6 +111,27 @@ public class SignView extends View {
                 break;
         }
         return true;
+    }
+
+    public ArrayList<String> countStart(final float x, final float y) {
+        // txt file에 1000분의 1초마다 (int)x랑 (int)y를 저장하면 됨.
+
+        if (start==0) start = 1;
+        else return null; // 아니면 그냥 바로 끝내버리기
+
+        final ArrayList<String> log = null;
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                log.add((int)x+","+(int)y);
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 1);
+
+        return log;
     }
 /*
     public void undo() {

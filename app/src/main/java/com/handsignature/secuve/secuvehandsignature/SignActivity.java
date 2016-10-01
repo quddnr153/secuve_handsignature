@@ -56,6 +56,7 @@ public class SignActivity extends Activity{
                             Intent intent = new Intent(SignActivity.this, MainActivity.class); // MainActivity 이동한다.
                             startActivity(intent);
                             finish(); // 지금 이 activity 종료
+
                         }
                     } else {
                         Toast.makeText(SignActivity.this, "2", Toast.LENGTH_SHORT).show();
@@ -135,5 +136,9 @@ public class SignActivity extends Activity{
         sv.mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         // Color.TRANSPARENT or 0
         sv.invalidate();
+    }
+
+    public void SaveToText(String filename) {
+
     }
 }
