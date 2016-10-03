@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Woori on 2016-08-16.
@@ -30,8 +31,8 @@ public class SignView extends View {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
-    private int start = 0;
-    private int end = 0;
+    public int start = 0;
+    public ArrayList<String> log = new ArrayList<>();
 
     //public ArrayList<Path> paths = new ArrayList<>();
     //public ArrayList<Path> undonePaths = new ArrayList<>();
@@ -65,6 +66,12 @@ public class SignView extends View {
         //undonePaths.clear();
         //Log.d(">>>>>>>>>>", "Cheers love~ the cavalry's here!");
 
+        if (start==0) {
+            start = 1;
+            CountThread ct = new CountThread();
+            ct.start();
+        }
+
         path.reset();
         path.moveTo(x, y);
         mX = x;
@@ -79,7 +86,8 @@ public class SignView extends View {
             mX = x;
             mY = y;
 
-            Log.d(">>>", "("+(int)x+","+(int)y+")");
+            // Log.d(">>>", "("+(int)x+","+(int)y+")");
+            //Log.d(">>>", "("+(int)x+","+(int)y+") //// ("+(int)mX+","+(int)mY+")");
         }
     }
 
@@ -98,7 +106,6 @@ public class SignView extends View {
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 touch_start(x, y);
-                countStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -113,42 +120,45 @@ public class SignView extends View {
         return true;
     }
 
+    /*
     public ArrayList<String> countStart(final float x, final float y) {
         // txt file에 1000분의 1초마다 (int)x랑 (int)y를 저장하면 됨.
 
         if (start==0) start = 1;
         else return null; // 아니면 그냥 바로 끝내버리기
 
-        final ArrayList<String> log = null;
-
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                log.add((int)x+","+(int)y);
+                //log.add((int)x+","+(int)y);
+                Log.d(">>>", "("+(int)x+","+(int)y+")");
             }
         };
 
         Timer timer = new Timer();
-        timer.schedule(task, 0, 1);
+        timer.schedule(task, 0, 1); // 0초 후 첫 실행, 1/1000초마다 계속 실행
 
         return log;
-    }
-/*
-    public void undo() {
-        if (paths.size() > 0) {
-            undonePaths.add(paths.remove(paths.size()-1));
-            invalidate();
-        } else {
-            // toast the user
-        }
-    }
-
-    public void redo() {
-        if (undonePaths.size() > 0) {
-            paths.add(undonePaths.remove(undonePaths.size()-1));
-            invalidate();
-        } else {
-            // toast the user
-        }
     } */
+
+    private class CountThread extends java.lang.Thread {
+        private static final String TAG = "CountThread";
+
+        public CountThread() {
+            // 초기화
+        }
+
+        public void run() {
+            while(true) {
+                try{
+                    sleep(1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                // Log.d(">>>", "("+(int)mX+","+(int)mY+")");
+                log.add((int)mX+","+(int)mY);
+            }
+
+        }
+    }
 }

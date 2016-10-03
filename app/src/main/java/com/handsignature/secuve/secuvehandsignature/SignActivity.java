@@ -17,9 +17,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Woori on 2016-09-22.
@@ -52,7 +58,8 @@ public class SignActivity extends Activity{
                             String filename = name + "_signature" + System.currentTimeMillis() + ".jpg";
                             String filename1 = name + "_signature2" + System.currentTimeMillis() + ".jpg";
                             SaveSignature(sv, filename, filename1);
-
+                            SaveToText(sv.log, "logfile"+System.currentTimeMillis()+".txt");
+                            Log.d(">>!>>!>>!!!>>", sv.log.get(3).toString());
                             Intent intent = new Intent(SignActivity.this, MainActivity.class); // MainActivity 이동한다.
                             startActivity(intent);
                             finish(); // 지금 이 activity 종료
@@ -138,7 +145,51 @@ public class SignActivity extends Activity{
         sv.invalidate();
     }
 
-    public void SaveToText(String filename) {
+    public void SaveToText(ArrayList<String> alog, String filename) throws IOException {
 
+        String dir;
+
+        String sdcard = Environment.getExternalStorageState();
+        if (sdcard.equals(Environment.MEDIA_MOUNTED))
+            dir = Environment.getExternalStorageDirectory().getAbsolutePath();
+        else dir = Environment.getRootDirectory().getAbsolutePath();
+
+        File directory = new File(dir, "woori");
+        if (!directory.exists()) {
+            boolean checker = directory.mkdirs();
+            if (checker) Log.d(">>>>>>>>>", "dir만들어짐" + checker);
+            else Log.d(">>>>>>>>>", "dir안만들어짐" + checker);
+        } else {
+            Log.d(">>>>>>>>>", "dir가 원래 있어: " + directory.toString());
+        }
+
+        if (directory.isDirectory()) {
+            File file = new File(directory.getAbsolutePath(), filename);
+            file.createNewFile();
+            try {
+                FileWriter fw = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fw);
+                for (String s : alog) {
+                    bw.write(s);
+                    bw.write("\n");
+                }
+                bw.flush();
+                bw.close();
+                /*
+                FileOutputStream fos = new FileOutputStream(file);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(alog);
+                oos.flush();
+                oos.close();
+                // alog를 txt로 저장
+                fos.flush();
+                fos.close();
+                */
+                Toast.makeText(this, "txt 저장 성공", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.d("!!!!!", e.toString());
+                Toast.makeText(this, "txt 저장에 뭔가 문제가 있다", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
